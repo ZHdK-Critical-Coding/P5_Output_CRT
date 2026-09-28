@@ -9,18 +9,26 @@ top. A starting point for using an old TV as an output for a sketch.
 
 ## Installation
 
-Requirements: a Raspberry Pi with a CRT on its composite output running
-`crt-websocket` from
-[Servers_RaspberriPi](https://github.com/ZHdK-Critical-Coding/Servers_RaspberriPi)
-(port 8100), a webcam and a browser on the same network.
+Requirements: a webcam and a browser on the same network as the Pi (see
+Server).
 
 Libraries (in `libraries/`): p5.js 1.11.10, p5.sound 1.0.1 (included, not used).
 
 License: MIT
 
+## Server
+
+Needs `crt-websocket` from
+[Servers_RaspberriPi](https://github.com/ZHdK-Critical-Coding/Servers_RaspberriPi),
+running on a Raspberry Pi with a CRT TV on its composite output (PAL),
+port 8100. Start it first with `bash run.sh` in the folder on the Pi; it
+shows the Pi's IP on the TV. It takes JPEG frames of exactly 720 × 576 and
+answers `ok` after each one. Put its address in `connection` at the top of
+`sketch.js`.
+
 ## How to Run
 
-1. Start the server on the Pi. It shows its IP address on the TV.
+1. Start the server on the Pi (see Server). It shows its IP address on the TV.
 2. Enter that address in `connection` at the top of `sketch.js`, e.g.
    `ws://10.21.14.32:8100`.
 3. Open the folder in Visual Studio Code and start Live Server (click

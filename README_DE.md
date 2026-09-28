@@ -10,19 +10,27 @@ Fernseher als Ausgabe für einen Sketch zu verwenden.
 
 ## Installation
 
-Voraussetzungen: ein Raspberry Pi mit einem CRT am Composite-Ausgang, auf
-dem `crt-websocket` aus
-[Servers_RaspberriPi](https://github.com/ZHdK-Critical-Coding/Servers_RaspberriPi)
-läuft (Port 8100), eine Webcam und ein Browser im selben Netzwerk.
+Voraussetzungen: eine Webcam und ein Browser im selben Netzwerk wie der Pi
+(siehe Server).
 
 Bibliotheken (in `libraries/`): p5.js 1.11.10, p5.sound 1.0.1 (eingebunden,
 nicht verwendet).
 
 Lizenz: MIT
 
+## Server
+
+Braucht `crt-websocket` aus
+[Servers_RaspberriPi](https://github.com/ZHdK-Critical-Coding/Servers_RaspberriPi),
+auf einem Raspberry Pi mit einem Röhrenfernseher am Composite-Ausgang
+(PAL), Port 8100. Zuerst mit `bash run.sh` im Ordner auf dem Pi starten;
+er zeigt die IP des Pi auf dem Fernseher. Er nimmt JPEG-Frames von genau
+720 × 576 an und antwortet nach jedem mit `ok`. Seine Adresse oben in
+`sketch.js` bei `connection` eintragen.
+
 ## Ausführen
 
-1. Den Server auf dem Pi starten. Er zeigt seine IP-Adresse auf dem
+1. Den Server auf dem Pi starten (siehe Server). Er zeigt seine IP-Adresse auf dem
    Fernseher.
 2. Diese Adresse oben in `sketch.js` bei `connection` eintragen, z. B.
    `ws://10.21.14.32:8100`.
