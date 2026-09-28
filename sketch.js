@@ -5,8 +5,8 @@ let camCanvas1, baseCanvas;
 let cam; // webcam video capture
 
 function sendFrame() {
-  if (!camCanvas1 || !canvas) return
-  // Copy from the main canvas to the buffer
+  if (!camCanvas1 || !baseCanvas) return
+  // Copy the top-left 720 × 576 pixels of the main canvas to the buffer
   camCanvas1.copy(baseCanvas, 0, 0, crt.width, crt.height, 0, 0, crt.width, crt.height);
 
   camCanvas1.elt.toBlob(
@@ -21,10 +21,11 @@ function sendFrame() {
 }
 
 function setup() {
+  pixelDensity(1); // 1 canvas pixel = 1 screen pixel, also on retina screens
   baseCanvas = createCanvas(windowWidth, windowHeight);
-  camCanvas1 = createGraphics(crt.width * .5, crt.height * .5); // The secondary canvas (buffer)
+  camCanvas1 = createGraphics(crt.width, crt.height); // The secondary canvas (buffer), exactly the size of the CRT framebuffer
+  camCanvas1.pixelDensity(1); // make sure the buffer really has 720 × 576 pixels
   frameRate(25);
-  pixelDensity(1);
 
   // ✅ Start webcam
   cam = createCapture(VIDEO);
@@ -49,7 +50,7 @@ function setup() {
 function draw() {
   background('red')
   // ✅ Draw webcam frame as background
-  image(cam, 0, 0, crt.width * .5, crt.height * .5);
+  image(cam, 0, 0, crt.width, crt.height);
 
   // ✅ Draw your moving dots on top
   fill(255, 0, 0);

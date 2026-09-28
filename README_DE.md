@@ -15,6 +15,13 @@ dem `crt-websocket` aus
 [Servers_RaspberriPi](https://github.com/ZHdK-Critical-Coding/Servers_RaspberriPi)
 läuft (Port 8100), eine Webcam und ein Browser im selben Netzwerk.
 
+Bibliotheken (in `libraries/`): p5.js 1.11.10, p5.sound 1.0.1 (eingebunden,
+nicht verwendet).
+
+Lizenz: MIT
+
+## Ausführen
+
 1. Den Server auf dem Pi starten. Er zeigt seine IP-Adresse auf dem
    Fernseher.
 2. Diese Adresse oben in `sketch.js` bei `connection` eintragen, z. B.
@@ -24,26 +31,22 @@ läuft (Port 8100), eine Webcam und ein Browser im selben Netzwerk.
 4. Den Kamerazugriff erlauben. Die Frames werden gesendet, sobald die
    Verbindung steht.
 
-Bibliotheken (in `libraries/`): p5.js 1.11.10, p5.sound 1.0.1 (eingebunden,
-nicht verwendet).
-
-Lizenz: MIT
-
 ## Coding-Hilfe
 
 - **`sketch.js` → `connection`, `crt`**: Server-Adresse und die PAL-Grösse
   720 × 576. Der Server schreibt jeden Frame direkt in einen
   720 × 576-Framebuffer, die empfangenen Frames müssen also genau so gross
   sein.
-- **`setup()`**: erstellt eine fenstergrosse Zeichenfläche und einen halb so
-  grossen Buffer `camCanvas1`, startet die Webcam, setzt 25 fps und öffnet
+- **`setup()`**: setzt `pixelDensity(1)`, erstellt eine fenstergrosse
+  Zeichenfläche und einen Buffer `camCanvas1` von genau 720 × 576 Pixeln
+  (ebenfalls mit `pixelDensity(1)`, damit Retina-Bildschirme seine Grösse
+  nicht verändern), startet die Webcam, setzt 25 fps und öffnet
   den WebSocket (`binaryType = "arraybuffer"`). `onopen` schickt den ersten
   Frame, und jedes `ok` vom Server löst den nächsten aus – so sendet der
   Sketch nie schneller, als der Fernseher anzeigen kann.
-- **`sendFrame()`**: kopiert den oberen linken Teil der Zeichenfläche in
-  `camCanvas1`, kodiert ihn als JPEG (Qualität 0.9) und schickt die Bytes.
-  Weil `pixelDensity(1)` erst nach dem Buffer gesetzt wird, hängt die
-  echte Pixelgrösse des Buffers von der Pixeldichte des Bildschirms ab –
-  das prüfen, wenn der Fernseher dunkel bleibt.
-- **`draw()`**: zeichnet das Webcam-Bild in 360 × 288 und drei Kreise, die
+- **`sendFrame()`**: kopiert die oberen linken 720 × 576 Pixel der
+  Zeichenfläche in `camCanvas1`, kodiert sie als JPEG (Qualität 0.9) und
+  schickt die Bytes. Nur dieser Bereich erscheint auf dem Fernseher; ist
+  das Browserfenster kleiner, bleibt der Rest schwarz.
+- **`draw()`**: zeichnet das Webcam-Bild in 720 × 576 und drei Kreise, die
   sich unterschiedlich schnell bewegen. Hier die eigene Zeichnung einsetzen.
